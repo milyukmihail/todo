@@ -1,33 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import {createStore, bindActionCreators} from "redux";
+import reducer from './reducer';
+import * as actions from './actions';
 
-import AppHeader from './components/app-header/app-header';
-import SearchPanel from './components/search-panel/search-panel';
-import TodoList from './components/todo-list/todo-list';
-import ItemStatusFilter from './components/item-status-filter/item-status-filter';
+const store = createStore(reducer);
+const {dispatch} = store;
 
-import './index.css';
 
-const App = () => {
+const {inc, dec, rnd} = bindActionCreators(actions, dispatch);
 
-    const todoData = [
-        { label: 'Drink Coffee', important: false, id: 1 },
-        { label: 'Make Awesome App', important: true, id: 2 },
-        { label: 'Have a lunch', important: false, id: 3 }
-    ];
+document.getElementById('INC').addEventListener('click', inc);
 
-    return (
-        <div className="todo-app">
-            <AppHeader toDo={1} done={3} />
-            <div className="top-panel d-flex">
-                <SearchPanel />
-                <ItemStatusFilter />
-            </div>
+document.getElementById('DEC').addEventListener('click', dec);
 
-            <TodoList todos={todoData} />
-        </div>
-    );
+document.getElementById('RND').addEventListener('click', () => {
+    const payload = Math.floor(Math.random()*10);
+    rnd(payload);
+});
+
+const update = () => {
+    document.getElementById('counter').innerHTML = store.getState();
 };
 
-ReactDOM.render(<App />,
-    document.getElementById('root'));
+store.subscribe(update);
