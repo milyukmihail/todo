@@ -1,8 +1,4 @@
-const reducer = (state, action) => {
-
-    if (state === undefined) {
-        return 0;
-    }
+const reducer = (state = 15, action) => {
 
     switch (action.type) {
         case 'INC':
@@ -12,7 +8,7 @@ const reducer = (state, action) => {
         case 'RND':
             return state + action.payload;
         default:
-            return 0;
+            return state;
     }
 };
 
